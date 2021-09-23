@@ -52,7 +52,7 @@ def upload():
 
         file = request.files['file']
 
-        # If user doesnt' send a file, the browser submits empty file
+        # If user doesn't send a file, the browser submits empty file
         if file.filename == '':
             flash('No selected file!')
             return redirect(request.url)
@@ -61,12 +61,18 @@ def upload():
             
             # make filename secure and save it to the server
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            # send this file to the NN
+            res = inferer.infer(file.stream, input_type='file')
+            return res
+
+            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
             # after receiving a file from the user
             # redirect to a view that downloads a file
             # and shows it to the user
-            return redirect(url_for('download_file', name=filename))
+            
+            #return redirect(url_for('download_file', name=filename))
 
     # show html page with upload form
     return '''
