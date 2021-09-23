@@ -24,7 +24,7 @@ def hello():
 
 
 # just get an image from request json and execute Inferer
-@app.route('/infer', methods=['GET', 'POST'])
+@app.route('/infer/json', methods=['GET', 'POST'])
 def infer():
     
     if request.method == 'GET':
@@ -42,7 +42,7 @@ def allowed_file(filename):
             filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/infer/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
 
@@ -58,23 +58,29 @@ def upload():
             return redirect(request.url)
 
         if file and allowed_file(file.filename):
+            
+            # make filename secure and save it to the server
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
+            # after receiving a file from the user
+            # redirect to a view that downloads a file
+            # and shows it to the user
             return redirect(url_for('download_file', name=filename))
 
     # show html page with upload form
     return '''
     <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
+    <title>Upload picture for object detection</title>
+    <h1>Upload picture for object detection</h1>
     <form method=post enctype=multipart/form-data>
       <input type=file name=file>
-      <input type=submit value="Upload!">
+      <input type=submit value="Upload">
     </form>
     '''
 
 
-@app.route('uploads/<name>')
+@app.route('/uploads/<name>')
 def download_file(name):
     return send_from_directory(app.config['UPLOAD_FOLDER'], name)
 
