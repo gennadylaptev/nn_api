@@ -3,3 +3,4 @@ flask
 torch
 torchvision
 numpy
+opencv-python

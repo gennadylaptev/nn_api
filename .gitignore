@@ -5,3 +5,7 @@ __pycache__
 .idea
 dist
 test_imgs/
+
+*.jpg
+*.png
+*.jpeg

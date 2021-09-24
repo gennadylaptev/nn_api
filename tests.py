@@ -21,5 +21,17 @@ def test_inferer():
 
     print(out)
 
+
+def test_inference_on_uploaded_image():
+    inferer = Inferer()
+
+    model_output = inferer.infer(img_path, input_type='file')
+    
+
+def test_visualize_bb():
+    pass
+
+
 if __name__ == '__main__':
-    test_inferer()
+    #test_inferer()
+

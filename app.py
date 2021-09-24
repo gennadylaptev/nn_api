@@ -1,6 +1,7 @@
 import os
+import io
 from PIL import Image
-from flask import Flask, request, flash, redirect, url_for, send_from_directory
+from flask import Flask, request, flash, redirect, url_for, send_file
 from werkzeug.utils import secure_filename
 
 from inferer import Inferer
@@ -63,18 +64,16 @@ def upload():
             filename = secure_filename(file.filename)
 
             # send this file to the NN
-            res = inferer.infer(file.stream, input_type='file')
-            return res
+            # get json with bounding boxes, labels and probabilities
+            res = inferer.infer(file.stream, input_type='file', output_type='image')
 
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            
-            # after receiving a file from the user
-            # redirect to a view that downloads a file
-            # and shows it to the user
-            
-            #return redirect(url_for('download_file', name=filename))
+            # show bounding boxes on the picture
+            out_file = io.BytesIO() 
+            out_file.write(res)
+            out_file.seek(0)
+            return send_file(out_file, mimetype='image/jpeg', as_attachment=True, download_name='result.jpg')
 
-    # show html page with upload form
+    # show html page with the upload form
     return '''
     <!doctype html>
     <title>Upload picture for object detection</title>
@@ -84,11 +83,6 @@ def upload():
       <input type=submit value="Upload">
     </form>
     '''
-
-
-@app.route('/uploads/<name>')
-def download_file(name):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], name)
 
 
 if __name__ == '__main__':
