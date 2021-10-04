@@ -10,7 +10,7 @@ def run_client(url='http://127.0.0.1:5000/detect', port=5000, image_file='dogs.j
         img = f.read()
     
     # form POST request data
-    data = {'file': (img)}
+    data = {'file': img}
     response = requests.post(url, files=data)
     
     # raise exception if we made a bad request
