@@ -2,7 +2,6 @@ import io
 import torch
 import torchvision
 from torchvision import transforms
-#from torchvision.transforms import functional as F
 import numpy as np
 from PIL import Image
 
