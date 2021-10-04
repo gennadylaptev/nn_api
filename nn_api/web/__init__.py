@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request 
-from nn_api.service_layer import files, inference
+from nn_api.service_layer import inference
 
 
 # define an app factory
@@ -8,6 +8,9 @@ def create_app(test_config=None):
 
     app = Flask(__name__, instance_relative_config=True)
     inferer = inference.Inferer()
+
+    # store an `Inferer` instance in app config
+    app.config['inferer'] = inferer
     
     #if test_config is None:
     #    app.config.from_pyfile('config.py', silent=True)

@@ -1,4 +1,5 @@
-from flask import Blueprint, flash, request
+from flask import Blueprint, flash, request, current_app
+from nn_api.service_layer import files
 
 
 bp = Blueprint('detect', __name__, url_prefix='/')
@@ -7,6 +8,8 @@ bp = Blueprint('detect', __name__, url_prefix='/')
 @bp.route('/detect', methods=['GET', 'POST'])
 def detect():
     
+    inferer = current_app.config['inferer']
+
     if request.method == 'GET':
         return 'Please send an image via POST request'
     

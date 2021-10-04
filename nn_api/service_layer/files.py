@@ -30,8 +30,8 @@ def _check_file(f):
     if f.filename == '':
         raise EmptyFile('No file has been sent')
     
-    if f.filename not in ALLOWED_EXTENSIONS:
-        raise ExtensionNotAllowed('This file extension is not allowed')
+    #if not allowed_file(f.filename):
+    #    raise ExtensionNotAllowed(f'File extension is not allowed. Filename: {f.filename}')
 
 
 def process_file(f):
