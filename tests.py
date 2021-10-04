@@ -33,5 +33,6 @@ def test_visualize_bb():
 
 
 if __name__ == '__main__':
+    pass
     #test_inferer()
 

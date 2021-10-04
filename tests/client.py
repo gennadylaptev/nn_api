@@ -5,7 +5,7 @@ from tests import prepare_image_as_list
 # It just sends a picture (in json format) to the server
 
 
-def run_client(url='http://127.0.0.1:5000/infer', port=5000):
+def run_client(url='http://127.0.0.1:5000/infer/json', port=5000):
 
     img_list = prepare_image_as_list()
     
